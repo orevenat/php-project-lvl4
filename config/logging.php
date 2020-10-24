@@ -100,5 +100,18 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
     ],
-
+    'rollbar' => [
+        'driver' => 'monolog',
+        'handler' => \Rollbar\Laravel\MonologHandler::class,
+        'access_token' => env('ROLLBAR_TOKEN'),
+        'level' => 'debug',
+        'person_fn' => 'Auth::user',
+        'capture_email' => true,
+        'capture_username' => true
+    ],
+    'stack' => [
+        'driver' => 'stack',
+        'channels' => ['rollbar', 'single'],
+        'ignore_exceptions' => false,
+    ]
 ];
