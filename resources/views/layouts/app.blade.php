@@ -33,7 +33,11 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li class="nav-item">
+                            <a class="nav-link " href="{{ route('task_statuses.index') }}">
+                                {{ __('layouts.navbar.task_statuses') }}
+                            </a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -73,7 +77,7 @@
         </nav>
         @include('flash::message')
 
-        <main class="py-4">
+        <main class="container py-4">
             @yield('content')
         </main>
     </div>
