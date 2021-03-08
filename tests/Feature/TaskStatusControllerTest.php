@@ -25,14 +25,16 @@ class TaskStatusControllerTest extends TestCase
 
     public function testCreate()
     {
-        $response = $this->get(route('task_statuses.create'));
+        $response = $this->actingAs($this->user)
+                         ->get(route('task_statuses.create'));
         $response->assertOk();
     }
 
     public function testEdit()
     {
         $taskStatus = TaskStatus::factory()->create();
-        $response = $this->get(route('task_statuses.edit', [$taskStatus]));
+        $response = $this->actingAs($this->user)
+                         ->get(route('task_statuses.edit', [$taskStatus]));
         $response->assertOk();
     }
 
@@ -40,9 +42,10 @@ class TaskStatusControllerTest extends TestCase
     {
         $factoryData = TaskStatus::factory()->make()->toArray();
         $data = \Arr::only($factoryData, ['name']);
-        $response = $this->post(route('task_statuses.store'), $data);
+        $response = $this->actingAs($this->user)
+                         ->post(route('task_statuses.store'), $data);
         $response->assertSessionHasNoErrors();
-        # $response->assertRedirect();
+        $response->assertRedirect();
         $this->assertDatabaseHas('task_statuses', $data);
     }
 
@@ -51,9 +54,10 @@ class TaskStatusControllerTest extends TestCase
         $taskStatus = TaskStatus::factory()->create();
         $factoryData = TaskStatus::factory()->make()->toArray();
         $data = \Arr::only($factoryData, ['name']);
-        $response = $this->patch(route('task_statuses.update', $taskStatus), $data);
+        $response = $this->actingAs($this->user)
+                         ->patch(route('task_statuses.update', $taskStatus), $data);
         $response->assertSessionHasNoErrors();
-        /* $response->assertRedirect(); */
+        $response->assertRedirect();
 
         $this->assertDatabaseHas('task_statuses', $data);
     }
@@ -61,7 +65,8 @@ class TaskStatusControllerTest extends TestCase
     public function testDestroy()
     {
        $taskStatus = TaskStatus::factory()->create();
-       $response = $this->delete(route('task_statuses.destroy', $taskStatus));
+       $response = $this->actingAs($this->user)
+                        ->delete(route('task_statuses.destroy', $taskStatus));
        $response->assertSessionHasNoErrors();
        $response->assertRedirect();
 
